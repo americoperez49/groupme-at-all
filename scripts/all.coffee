@@ -158,7 +158,4 @@ module.exports = (robot) ->
         console.log "[GROUPME RESPONSE] #{response.statusCode} #{data}"
     req.end(json)
     
-    var http = require("http");
-setInterval(function() {
-    http.get("http://skategroupmebot.herokuapp.com");
-}, 1740000); // every 29 minutes (300000)
+    
