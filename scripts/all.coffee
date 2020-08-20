@@ -112,6 +112,73 @@ module.exports = (robot) ->
       res.send "Whitelisted #{target} successfully"
     else
       res.send "Could not find a user by the name #{target}"
+  
+  robot.hear /parks/i, (res) ->
+    """@all command"""
+    text = res.match[0]
+
+    messageONE =
+      'text': "Park #1",
+      'bot_id': bot_id,
+      'attachments': [
+          {
+            "type": "location",
+            "lat": "30.6441",
+            "lng": "-96.3648",
+            "name": "Williamshlong"
+          }
+      ]
+
+    messageTWO =
+      'text': "Park #2",
+      'bot_id': bot_id,
+      'attachments': [
+          {
+            "type": "location",
+            "lat": "30.580408",
+            "lng": "-96.293922",
+            "name": "Cock-Prairie"
+          }
+      ]
+
+    jsonONE = JSON.stringify(messageONE)
+    jsonTWO = JSON.stringify(messageTWO)
+
+    optionsONE =
+      agent: false
+      host: "api.groupme.com"
+      path: "/v3/bots/post"
+      port: 443
+      method: "POST"
+      headers:
+        'Content-Length': jsonONE.length
+        'Content-Type': 'application/json'
+        'X-Access-Token': token
+
+    optionsTWO =
+      agent: false
+      host: "api.groupme.com"
+      path: "/v3/bots/post"
+      port: 443
+      method: "POST"
+      headers:
+        'Content-Length': jsonTWO.length
+        'Content-Type': 'application/json'
+        'X-Access-Token': token
+
+    req = https.request optionsONE, (response) ->
+      data = ''
+      response.on 'data', (chunk) -> data += chunk
+      response.on 'end', ->
+        console.log "[GROUPME RESPONSE] #{response.statusCode} #{data}"
+    req.end(jsonONE)
+
+    req = https.request optionsTWO, (response) ->
+      data = ''
+      response.on 'data', (chunk) -> data += chunk
+      response.on 'end', ->
+        console.log "[GROUPME RESPONSE] #{response.statusCode} #{data}"
+    req.end(jsonTWO)
 
   robot.hear /(.*)@all(.*)/i, (res) ->
     """@all command"""
@@ -157,5 +224,3 @@ module.exports = (robot) ->
       response.on 'end', ->
         console.log "[GROUPME RESPONSE] #{response.statusCode} #{data}"
     req.end(json)
-    
-    
