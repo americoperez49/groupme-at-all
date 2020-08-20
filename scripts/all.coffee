@@ -113,7 +113,7 @@ module.exports = (robot) ->
     else
       res.send "Could not find a user by the name #{target}"
   
-  robot.hear /skateSpots/i, (res) ->
+  robot.hear /\/skateSpots/i, (res) ->
     """@all command"""
     text = res.match[0]
 
@@ -243,7 +243,7 @@ module.exports = (robot) ->
         console.log "[GROUPME RESPONSE] #{response.statusCode} #{data}"
     req.end(jsonONE)
 
-  robot.hear /help/i, (res) ->
+  robot.hear /\/help/i, (res) ->
     res.send "Here are things you can do:" + "\n\t" + "1. Type @all to mention everyone" + "\n\t" + "2. Type /skateSpots to get locations of usual skate spots around town."
 
   robot.hear /(.*)@all(.*)/i, (res) ->
